@@ -8,23 +8,85 @@
 </head>
 <body>
     <div class="container">
+        <h1>Gold Exchange Program</h1>
+
         <div class="top-bar">
             <span id="currentDate"></span>
-            <div class="gold-rates">
-                <p>Gold Rates:</p>
-                <p><strong>22K:</strong> <span id="goldRate22K"></span></p>
-                <p><strong>24K:</strong> <span id="goldRate24K"></span></p>
-                <p><strong>18K:</strong> <span id="goldRate18K"></span></p>
-                <p><strong>14K:</strong> <span id="goldRate14K"></span></p>
-                <div class="gold-rate-input">
-                    <input type="number" id="goldRateUpdate" placeholder="Enter 22K rate">
-                    <button id="updateGoldRate">Update</button>
-                </div>
-            </div>
+            <table class="gold-rate-table">
+                <thead>
+                    <tr>
+                        <th>Karat</th>
+                        <th>Rate (INR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>22K</td>
+                        <td id="goldRate22K">0</td>
+                    </tr>
+                    <tr>
+                        <td>24K</td>
+                        <td id="goldRate24K">0</td>
+                    </tr>
+                    <tr>
+                        <td>18K</td>
+                        <td id="goldRate18K">0</td>
+                    </tr>
+                    <tr>
+                        <td>14K</td>
+                        <td id="goldRate14K">0</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <h1>Gold Exchange Program</h1>
+        <!-- Deductions and Discounts Table -->
+        <table class="deduction-table">
+            <thead>
+                <tr>
+                    <th>Purity Range</th>
+                    <th>Karat</th>
+                    <th>Deduction (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>91.25 - 99.99</td>
+                    <td>All Karats</td>
+                    <td>2%</td>
+                </tr>
+                <tr>
+                    <td>87.50 - 91.24</td>
+                    <td>All Karats</td>
+                    <td>4%</td>
+                </tr>
+                <tr>
+                    <td>83.33 - 87.49</td>
+                    <td>20K - 21K</td>
+                    <td>6%</td>
+                </tr>
+                <tr>
+                    <td>83.33 - 87.49</td>
+                    <td>18K - 20K</td>
+                    <td>8%</td>
+                </tr>
+                <tr>
+                    <td>75.00 - 83.32</td>
+                    <td>All Karats</td>
+                    <td>8%</td>
+                </tr>
+                <tr>
+                    <td>37.50 - 74.99</td>
+                    <td>All Karats</td>
+                    <td>8%</td>
+                </tr>
+            </tbody>
+        </table>
+
         <form id="goldForm">
+            <label for="goldRateUpdate">Update Gold Rate (22K):</label>
+            <input type="number" id="goldRateUpdate" placeholder="Enter 22K rate" required>
+
             <label for="weight">Gold Weight (grams):</label>
             <input type="number" id="weight" required>
 
@@ -38,12 +100,13 @@
             <input type="number" id="discountOnDeduction" value="10" required>
 
             <button type="submit">Calculate</button>
+            <button type="button" id="updateGoldRate">Update Gold Rate</button>
         </form>
 
         <div id="result" class="result"></div>
 
         <footer class="footer">
-            <p>Made with Love by Prabhat</p>
+            <p>Made with Love <span class="heart">❤️</span> by Prabhat</p>
         </footer>
     </div>
     <script src="script.js"></script>
