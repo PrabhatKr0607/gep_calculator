@@ -41,10 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const karat2 = parseFloat(document.getElementById("karat2").value);
         const discountOnDeduction = parseFloat(document.getElementById("discountOnDeduction").value);
         
-        // Calculate average karat
+        // Calculate average karat and average purity
         const averageKarat = (karat1 + karat2) / 2;
-
-        // Calculate purity and deduction based on average karat
         let purity;
         let deduction;
         
@@ -76,11 +74,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = document.getElementById("result");
         result.innerHTML = `
             <h3>Calculation Results:</h3>
-            <p>Purity Range: ${purity}</p>
-            <p>Total Value: ₹${totalValue.toFixed(2)}</p>
-            <p>Deduction: ₹${totalDeduction.toFixed(2)} (${deduction}%)</p>
-            <p>Discount on Deduction: ₹${discountValue.toFixed(2)} (${discountOnDeduction}%)</p>
-            <p><strong>Net Value: ₹${netValue.toFixed(2)}</strong></p>
+            <p><strong>Average Karatage:</strong> ${averageKarat.toFixed(2)} K</p>
+            <p><strong>Average Purity:</strong> ${purity}</p>
+            <p><strong>Total Value:</strong> ₹${totalValue.toFixed(2)}</p>
+            <p><strong>Deduction:</strong> ₹${totalDeduction.toFixed(2)} (${deduction}%)</p>
+            <p><strong>Discount on Deduction:</strong> ₹${discountValue.toFixed(2)} (${discountOnDeduction}%)</p>
+            <p><strong>Net Value:</strong> ₹${netValue.toFixed(2)}</p>
         `;
         result.style.opacity = 1; // Show result
     });
