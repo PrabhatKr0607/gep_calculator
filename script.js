@@ -11,16 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Initialize gold rates
     let goldRate22K = 0;
-    let goldRate24K = 0;
-    let goldRate18K = 0;
-    let goldRate14K = 0;
 
     // Function to update gold rates based on 22K
     function updateGoldRates() {
         goldRate22K = parseFloat(document.getElementById("goldRateUpdate").value);
-        goldRate24K = (goldRate22K / 22) * 24;
-        goldRate18K = (goldRate22K / 22) * 18;
-        goldRate14K = (goldRate22K / 22) * 14;
+        const goldRate24K = (goldRate22K / 22) * 24;
+        const goldRate18K = (goldRate22K / 22) * 18;
+        const goldRate14K = (goldRate22K / 22) * 14;
 
         // Update the gold rate elements
         goldRate22KElement.innerText = goldRate22K.toFixed(2);
@@ -35,20 +32,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Calculate function
     document.getElementById("goldForm").addEventListener("submit", (event) => {
         event.preventDefault();
-        
+
         const weight = parseFloat(document.getElementById("weight").value);
         const karat1 = parseFloat(document.getElementById("karat1").value);
         const karat2 = parseFloat(document.getElementById("karat2").value);
         const discountOnDeduction = parseFloat(document.getElementById("discountOnDeduction").value);
-        
-        // Calculate average karat and average purity
+
+        // Calculate average karat
         const averageKarat = (karat1 + karat2) / 2;
+        
+        // Calculate purity and deduction based on average karat
         let purity;
         let deduction;
-        
+
         if (averageKarat >= 91.25) {
             purity = "91.25 - 99.99";
-            deduction = 2;
+            deduction = 2; // Deduction percentage
         } else if (averageKarat >= 87.50) {
             purity = "87.50 - 91.24";
             deduction = 4;
@@ -63,12 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
             deduction = 8;
         }
 
-        // Calculate net weight and price
+        // Calculate total value and deductions
         const pricePerGram = goldRate22K; // use the 22K gold rate for pricing
-        const totalValue = weight * pricePerGram;
-        const totalDeduction = (totalValue * deduction) / 100;
-        const discountValue = (totalDeduction * discountOnDeduction) / 100;
-        const netValue = totalValue - totalDeduction + discountValue;
+        const totalValue = weight * pricePerGram; // Total value of gold
+        const totalDeduction = (totalValue * deduction) / 100; // Total deduction
+        const discountValue = (totalDeduction * discountOnDeduction) / 100; // Discount value
+        const netValue = totalValue - totalDeduction + discountValue; // Final net value
 
         // Display results
         const result = document.getElementById("result");
