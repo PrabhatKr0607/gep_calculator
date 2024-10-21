@@ -144,60 +144,15 @@ button:hover {
 
 /* Heart Animation */
 .heart {
-    display: inline-block;
-    animation: heartbeat 1.5s infinite;
+    animation: heartbeat 1.5s infinite alternate;
 }
 
 @keyframes heartbeat {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
+    0% { transform: scale(1); }
+    100% { transform: scale(1.2); }
 }
 
-/* Media Queries for Responsiveness */
-@media (min-width: 768px) {
-    .container {
-        max-width: 700px;
-    }
-
-    h1 {
-        font-size: 32px;
-    }
-
-    input {
-        font-size: 18px;
-        padding: 14px;
-    }
-
-    button {
-        font-size: 20px;
-        padding: 18px;
-    }
-}
-
-@media (min-width: 1024px) {
-    .container {
-        max-width: 800px;
-    }
-
-    h1 {
-        font-size: 36px;
-    }
-
-    input {
-        font-size: 20px;
-        padding: 16px;
-    }
-
-    button {
-        font-size: 22px;
-        padding: 20px;
-    }
-}
-
+/* Responsive Styles */
 @media (max-width: 600px) {
     .container {
         padding: 10px;

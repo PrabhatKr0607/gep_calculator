@@ -1,110 +1,87 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Display the current date
-    const dateElement = document.getElementById('currentDate');
-    const today = new Date();
-    const formattedDate = today.toLocaleDateString('en-IN', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-    dateElement.textContent = formattedDate;
+document.addEventListener("DOMContentLoaded", () => {
+    const currentDateElement = document.getElementById("currentDate");
+    const goldRate22KElement = document.getElementById("goldRate22K");
+    const goldRate24KElement = document.getElementById("goldRate24K");
+    const goldRate18KElement = document.getElementById("goldRate18K");
+    const goldRate14KElement = document.getElementById("goldRate14K");
 
-    // Check if a stored 22K gold rate exists and if it's from today
-    const storedRate = localStorage.getItem('goldRate22K');
-    const storedDate = localStorage.getItem('rateDate');
-    const currentDay = today.getDate();
+    // Set current date
+    const today = new Date().toLocaleDateString();
+    currentDateElement.innerText = today;
 
-    // Function to calculate rates for other karats
-    function updateGoldRates(goldRate22K) {
-        const goldRate24K = (goldRate22K / 22) * 24;
-        const goldRate18K = (goldRate22K / 22) * 18;
-        const goldRate14K = (goldRate22K / 22) * 14;
+    // Initialize gold rates
+    let goldRate22K = 0;
+    let goldRate24K = 0;
+    let goldRate18K = 0;
+    let goldRate14K = 0;
 
-        document.getElementById('goldRate22K').textContent = goldRate22K.toFixed(2);
-        document.getElementById('goldRate24K').textContent = goldRate24K.toFixed(2);
-        document.getElementById('goldRate18K').textContent = goldRate18K.toFixed(2);
-        document.getElementById('goldRate14K').textContent = goldRate14K.toFixed(2);
+    // Function to update gold rates based on 22K
+    function updateGoldRates() {
+        goldRate22K = parseFloat(document.getElementById("goldRateUpdate").value);
+        goldRate24K = (goldRate22K / 22) * 24;
+        goldRate18K = (goldRate22K / 22) * 18;
+        goldRate14K = (goldRate22K / 22) * 14;
+
+        // Update the gold rate elements
+        goldRate22KElement.innerText = goldRate22K.toFixed(2);
+        goldRate24KElement.innerText = goldRate24K.toFixed(2);
+        goldRate18KElement.innerText = goldRate18K.toFixed(2);
+        goldRate14KElement.innerText = goldRate14K.toFixed(2);
     }
 
-    if (storedRate && storedDate == currentDay) {
-        // If stored rate is available and from today, use it
-        updateGoldRates(parseFloat(storedRate));
-        document.getElementById('goldRateUpdate').value = storedRate;
-    } else {
-        // If no stored rate or it's a new day, reset to default
-        localStorage.removeItem('goldRate22K');
-        localStorage.removeItem('rateDate');
-        document.getElementById('goldRate22K').textContent = "Not Set";
-    }
+    // Update gold rate button event listener
+    document.getElementById("updateGoldRate").addEventListener("click", updateGoldRates);
 
-    // Update gold rate from input field
-    document.getElementById('updateGoldRate').addEventListener('click', function() {
-        const newRate = parseFloat(document.getElementById('goldRateUpdate').value);
-        if (!isNaN(newRate) && newRate > 0) {
-            localStorage.setItem('goldRate22K', newRate);
-            localStorage.setItem('rateDate', currentDay);
-            updateGoldRates(newRate);
-            document.getElementById('goldRateUpdate').value = ''; // Clear input
-        } else {
-            alert('Please enter a valid gold rate.');
-        }
-    });
-
-    // Handle form submission
-    document.getElementById('goldForm').addEventListener('submit', function(event) {
+    // Calculate function
+    document.getElementById("goldForm").addEventListener("submit", (event) => {
         event.preventDefault();
-
-        const weight = parseFloat(document.getElementById('weight').value);
-        const karat1 = parseFloat(document.getElementById('karat1').value);
-        const karat2 = parseFloat(document.getElementById('karat2').value);
-        const goldRate = parseFloat(localStorage.getItem('goldRate22K'));
-        const discountOnDeduction = parseFloat(document.getElementById('discountOnDeduction').value);
-
+        
+        const weight = parseFloat(document.getElementById("weight").value);
+        const karat1 = parseFloat(document.getElementById("karat1").value);
+        const karat2 = parseFloat(document.getElementById("karat2").value);
+        const discountOnDeduction = parseFloat(document.getElementById("discountOnDeduction").value);
+        
         // Calculate average karat
-        const avgKarat = (karat1 + karat2) / 2;
+        const averageKarat = (karat1 + karat2) / 2;
 
-        // Calculate average purity percentage
-        const avgPurity = avgKarat / 24;
-
-        // Deduction logic based on purity
-        let deductionPercent;
-        if (avgPurity >= 0.9125) {
-            deductionPercent = 2;
-        } else if (avgPurity >= 0.8750 && avgPurity < 0.9125) {
-            deductionPercent = 4;
-        } else if (avgPurity >= 0.8333 && avgPurity < 0.8750) {
-            deductionPercent = (avgKarat >= 20 && avgKarat <= 21) ? 6 : 8;
-        } else if (avgPurity >= 0.75 && avgPurity < 0.8333) {
-            deductionPercent = 8;
-        } else if (avgPurity >= 0.375 && avgPurity < 0.75) {
-            deductionPercent = 8;
+        // Calculate purity and deduction based on average karat
+        let purity;
+        let deduction;
+        
+        if (averageKarat >= 91.25) {
+            purity = "91.25 - 99.99";
+            deduction = 2;
+        } else if (averageKarat >= 87.50) {
+            purity = "87.50 - 91.24";
+            deduction = 4;
+        } else if (averageKarat >= 83.33) {
+            purity = "83.33 - 87.49";
+            deduction = 6;
+        } else if (averageKarat >= 75.00) {
+            purity = "75.00 - 83.32";
+            deduction = 8;
+        } else {
+            purity = "37.50 - 74.99";
+            deduction = 8;
         }
 
-        // Calculate deduction value
-        const deductionValue = (deductionPercent / 100) * weight * goldRate;
-        const discountOnDeductionValue = (discountOnDeduction / 100) * deductionValue;
-        const totalValue = weight * goldRate - (deductionValue - discountOnDeductionValue);
+        // Calculate net weight and price
+        const pricePerGram = goldRate22K; // use the 22K gold rate for pricing
+        const totalValue = weight * pricePerGram;
+        const totalDeduction = (totalValue * deduction) / 100;
+        const discountValue = (totalDeduction * discountOnDeduction) / 100;
+        const netValue = totalValue - totalDeduction + discountValue;
 
-        // Display the result with animation
-        const resultElement = document.getElementById('result');
-        resultElement.innerHTML = `
-            <p><strong>Average Karat:</strong> ${avgKarat.toFixed(2)}K</p>
-            <p><strong>Average Purity:</strong> ${(avgPurity * 100).toFixed(2)}%</p>
-            <p><strong>Deduction (${deductionPercent}%):</strong> ₹${deductionValue.toFixed(2)}</p>
-            <p><strong>Discount on Deduction (${discountOnDeduction}%):</strong> ₹${discountOnDeductionValue.toFixed(2)}</p>
-            <p><strong>Total Value after Deduction:</strong> ₹${totalValue.toFixed(2)}</p>
+        // Display results
+        const result = document.getElementById("result");
+        result.innerHTML = `
+            <h3>Calculation Results:</h3>
+            <p>Purity Range: ${purity}</p>
+            <p>Total Value: ₹${totalValue.toFixed(2)}</p>
+            <p>Deduction: ₹${totalDeduction.toFixed(2)} (${deduction}%)</p>
+            <p>Discount on Deduction: ₹${discountValue.toFixed(2)} (${discountOnDeduction}%)</p>
+            <p><strong>Net Value: ₹${netValue.toFixed(2)}</strong></p>
         `;
-        
-        // Animate result
-        resultElement.style.opacity = 1;
-        resultElement.style.transform = "translateY(0)";
-        
-        // Store the gold rate for 22K in local storage
-        localStorage.setItem('goldRate22K', goldRate);
-        localStorage.setItem('rateDate', currentDay);
-
-        // Update the gold rates display
-        updateGoldRates(goldRate);
+        result.style.opacity = 1; // Show result
     });
 });
