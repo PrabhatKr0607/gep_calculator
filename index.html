@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Exchange Program</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <span id="currentDate"></span>
+            <div class="gold-rates">
+                <p>Gold Rates:</p>
+                <p><strong>22K:</strong> <span id="goldRate22K"></span></p>
+                <p><strong>24K:</strong> <span id="goldRate24K"></span></p>
+                <p><strong>18K:</strong> <span id="goldRate18K"></span></p>
+                <p><strong>14K:</strong> <span id="goldRate14K"></span></p>
+                <div class="gold-rate-input">
+                    <input type="number" id="goldRateUpdate" placeholder="Enter 22K rate">
+                    <button id="updateGoldRate">Update</button>
+                </div>
+            </div>
+        </div>
+
+        <h1>Gold Exchange Program</h1>
+        <form id="goldForm">
+            <label for="weight">Gold Weight (grams):</label>
+            <input type="number" id="weight" required>
+
+            <label for="karat1">Karat Reading 1:</label>
+            <input type="number" id="karat1" required>
+
+            <label for="karat2">Karat Reading 2:</label>
+            <input type="number" id="karat2" required>
+
+            <label for="discountOnDeduction">Discount on Deduction (%):</label>
+            <input type="number" id="discountOnDeduction" value="10" required>
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        <div id="result" class="result"></div>
+
+        <footer class="footer">
+            <p>Made with Love by Prabhat</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
